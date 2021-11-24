@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:table_calendar_example/pages/event_lines_example.dart';
 
 import 'pages/basics_example.dart';
 import 'pages/complex_example.dart';
@@ -49,6 +50,14 @@ class _StartPageState extends State<StartPage> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => TableBasicsExample()),
+              ),
+            ),
+            const SizedBox(height: 12.0),
+            ElevatedButton(
+              child: Text('Line Events'),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => EventLinesExampleScreen()),
               ),
             ),
             const SizedBox(height: 12.0),

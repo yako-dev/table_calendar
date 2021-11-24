@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:table_calendar/src/shared/event_model.dart';
 
 import '../shared/utils.dart';
 import 'calendar_page.dart';
@@ -29,6 +30,15 @@ class CalendarCore extends StatelessWidget {
   final PageController? pageController;
   final ScrollPhysics? scrollPhysics;
   final _OnCalendarPageChanged onPageChanged;
+  final List<EventModel>? events;
+  final int maxEventsCount;
+  final double eventVerticalPadding;
+  final double eventMaxHeight;
+  final double eventIndent;
+  final Function(List<EventModel>)? onMoreTap;
+  final Function(EventModel)? onEventTap;
+  final WeekEventBuilder? weekEventBuilder;
+  final MoreBuilder? moreBuilder;
 
   const CalendarCore({
     Key? key,
@@ -51,6 +61,15 @@ class CalendarCore extends StatelessWidget {
     this.rowDecoration,
     this.tableBorder,
     this.scrollPhysics,
+    this.events,
+    this.maxEventsCount = 4,
+    this.eventVerticalPadding = 4,
+    this.eventMaxHeight = 15,
+    this.eventIndent = 20,
+    this.onEventTap,
+    this.onMoreTap,
+    this.weekEventBuilder,
+    this.moreBuilder,
   })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
         super(key: key);
 
@@ -72,7 +91,17 @@ class CalendarCore extends StatelessWidget {
             : null;
 
         return CalendarPage(
+          moreBuilder: moreBuilder,
+          weekEventBuilder: weekEventBuilder,
+          onEventTap: onEventTap,
+          onMoreTap: onMoreTap,
+          maxEventsCount: maxEventsCount,
+          eventVerticalPadding: eventVerticalPadding,
+          eventMaxHeight: eventMaxHeight,
+          eventIndent: eventIndent,
+          events: events,
           visibleDays: visibleDays,
+          height: constrainedRowHeight ?? rowHeight,
           dowVisible: dowVisible,
           dowDecoration: dowDecoration,
           rowDecoration: rowDecoration,

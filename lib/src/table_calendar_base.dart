@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
+import 'package:table_calendar/src/shared/event_model.dart';
 
 import 'shared/utils.dart';
 import 'widgets/calendar_core.dart';
@@ -33,6 +34,15 @@ class TableCalendarBase extends StatefulWidget {
   final SwipeCallback? onVerticalSwipe;
   final void Function(DateTime focusedDay)? onPageChanged;
   final void Function(PageController pageController)? onCalendarCreated;
+  final List<EventModel>? events;
+  final int maxEventsCount;
+  final double eventVerticalPadding;
+  final double eventMaxHeight;
+  final double eventIndent;
+  final Function(List<EventModel>)? onMoreTap;
+  final Function(EventModel)? onEventTap;
+  final WeekEventBuilder? weekEventBuilder;
+  final MoreBuilder? moreBuilder;
 
   TableCalendarBase({
     Key? key,
@@ -68,6 +78,15 @@ class TableCalendarBase extends StatefulWidget {
     this.onVerticalSwipe,
     this.onPageChanged,
     this.onCalendarCreated,
+    this.events,
+    this.maxEventsCount = 4,
+    this.eventVerticalPadding = 4,
+    this.eventMaxHeight = 15,
+    this.eventIndent = 20,
+    this.onEventTap,
+    this.onMoreTap,
+    this.weekEventBuilder,
+    this.moreBuilder,
   })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
         assert(isSameDay(focusedDay, firstDay) || focusedDay.isAfter(firstDay)),
         assert(isSameDay(focusedDay, lastDay) || focusedDay.isBefore(lastDay)),
@@ -202,6 +221,15 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
               );
             },
             child: CalendarCore(
+              moreBuilder: widget.moreBuilder,
+              weekEventBuilder: widget.weekEventBuilder,
+              onMoreTap: widget.onMoreTap,
+              onEventTap: widget.onEventTap,
+              events: widget.events,
+              maxEventsCount: widget.maxEventsCount,
+              eventVerticalPadding: widget.eventVerticalPadding,
+              eventMaxHeight: widget.eventMaxHeight,
+              eventIndent: widget.eventIndent,
               constraints: constraints,
               pageController: _pageController,
               scrollPhysics: _canScrollHorizontally

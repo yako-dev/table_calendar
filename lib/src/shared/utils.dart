@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/widgets.dart';
+import 'package:table_calendar/src/shared/event_model.dart';
 
 /// Signature for a function that creates a widget for a given `day`.
 typedef DayBuilder = Widget? Function(BuildContext context, DateTime day);
@@ -13,6 +14,15 @@ typedef FocusedDayBuilder = Widget? Function(
 
 /// Signature for a function returning text that can be localized and formatted with `DateFormat`.
 typedef TextFormatter = String Function(DateTime date, dynamic locale);
+
+typedef WeekEventBuilder = Widget Function(
+  EventModel event,
+  EventType type,
+  double widgetWidth,
+  int itemPostion,
+);
+
+typedef MoreBuilder = Widget Function(List<EventModel> dayEvents);
 
 /// Gestures available for the calendar.
 enum AvailableGestures { none, verticalSwipe, horizontalSwipe, all }

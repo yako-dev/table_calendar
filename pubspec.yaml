@@ -14,6 +14,8 @@ dependencies:
 
   intl: ^0.17.0
   simple_gesture_detector: ^0.2.0
+  auto_size_text: ^3.0.0-nullsafety.0
+  rect_getter: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
+import 'package:table_calendar/src/shared/event_model.dart';
 
 import 'customization/calendar_builders.dart';
 import 'customization/calendar_style.dart';
@@ -201,6 +202,16 @@ class TableCalendar<T> extends StatefulWidget {
   /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController)? onCalendarCreated;
 
+  final List<EventModel>? events;
+  final int maxEventsCount;
+  final double eventVerticalPadding;
+  final double eventMaxHeight;
+  final double eventIndent;
+  final Function(List<EventModel>)? onMoreTap;
+  final Function(EventModel)? onEventTap;
+  final WeekEventBuilder? weekEventBuilder;
+  final MoreBuilder? moreBuilder;
+
   /// Creates a `TableCalendar` widget.
   TableCalendar({
     Key? key,
@@ -256,6 +267,15 @@ class TableCalendar<T> extends StatefulWidget {
     this.onPageChanged,
     this.onFormatChanged,
     this.onCalendarCreated,
+    this.events,
+    this.maxEventsCount = 4,
+    this.eventVerticalPadding = 4,
+    this.eventMaxHeight = 15,
+    this.eventIndent = 20,
+    this.onEventTap,
+    this.onMoreTap,
+    this.weekEventBuilder,
+    this.moreBuilder,
   })  : assert(availableCalendarFormats.keys.contains(calendarFormat)),
         assert(availableCalendarFormats.length <= CalendarFormat.values.length),
         assert(weekendDays.isNotEmpty
@@ -475,6 +495,15 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
         Flexible(
           flex: widget.shouldFillViewport ? 1 : 0,
           child: TableCalendarBase(
+            moreBuilder: widget.moreBuilder,
+            weekEventBuilder: widget.weekEventBuilder,
+            onEventTap: widget.onEventTap,
+            onMoreTap: widget.onMoreTap,
+            events: widget.events,
+            maxEventsCount: widget.maxEventsCount,
+            eventVerticalPadding: widget.eventVerticalPadding,
+            eventMaxHeight: widget.eventMaxHeight,
+            eventIndent: widget.eventIndent,
             onCalendarCreated: (pageController) {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);
